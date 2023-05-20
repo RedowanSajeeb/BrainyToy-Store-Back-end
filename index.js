@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const cors = require("cors");
 const app = express();
 require("dotenv").config();
@@ -33,6 +33,16 @@ async function run() {
       
   });
 
+  app.get("/brainy/:id", async (req, res) => {
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) };
+    const result = await brainYToyCollection.findOne(query)
+    res.send(result);
+
+  });
+  
+
+   
   //  brainYToys Server Added
    app.post("/brainy", async (req, res) => {
 
