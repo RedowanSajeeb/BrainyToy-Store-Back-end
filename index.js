@@ -101,7 +101,21 @@ app.get("/engineeringTools", async (req, res) => {
     res.send(result);
  
    });
-    
+
+
+app.get("/getSearchByToyName/:text", async (req, res) => {
+  const searchText = req.params.text;
+  const result = await brainYToyCollection
+    .find({
+      toyName: { $regex: searchText, $options: "i" },
+    })
+    .toArray();
+  res.send(result);
+});
+
+
+
+
      app.put("/brainy/:id", async (req, res) => {
        const id = req.params.id;
        const updateToydata = req.body;
@@ -119,6 +133,7 @@ app.get("/engineeringTools", async (req, res) => {
         res.send(result);
      });
 
+    
 
 
    app.delete("/brainy/:id", async (req, res) => {
