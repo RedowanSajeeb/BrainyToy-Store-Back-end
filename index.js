@@ -36,12 +36,22 @@ async function run() {
   app.get("/brainy/:id", async (req, res) => {
     const id = req.params.id;
     const query = { _id: new ObjectId(id) };
-    const result = await brainYToyCollection.findOne(query)
+    const cursor = brainYToyCollection.find(query);
+    const result = await cursor.toArray(query)
     res.send(result);
 
   });
   
+// Category
 
+app.get("/categorymath", async (req, res) => {
+  const query = { category: { $eq: "Math Toys" } };
+  const cursor = brainYToyCollection.find(query);
+
+  const result = await cursor.toArray(query)
+
+  res.send(result);
+});
    
   //  brainYToys Server Added
    app.post("/brainy", async (req, res) => {
