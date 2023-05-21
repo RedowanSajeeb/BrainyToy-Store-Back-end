@@ -6,7 +6,13 @@ require("dotenv").config();
 const port = process.env.PORT || 5000;
 
 // middleware
-app.use(cors());
+const corsConfig = {
+  origin: "*",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+};
+app.use(cors(corsConfig));
+app.options("", cors(corsConfig));
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.SECRET_user}:${process.env.SECRET_KEY}@brainytoy.uw3gtqh.mongodb.net/?retryWrites=true&w=majority`;
@@ -23,7 +29,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
   // brainYToys Get in Server
   app.get("/brainy", async (req, res) =>{
@@ -116,15 +122,31 @@ app.get("/getSearchByToyName/:text", async (req, res) => {
 // ascending
 
 app.get("/ascending", async (req, res) => {
-    const sortedToys = await brainYToyCollection.find().sort({ price: 1 }).toArray();
-    res.send(sortedToys)
+  const toyCollection = await brainYToyCollection.find().toArray();
+
+  const sortedToys = toyCollection.sort((a, b) => {
+    const priceA = parseFloat(a.price);
+    const priceB = parseFloat(b.price);
+    return priceA - priceB;
+  });
+
+  res.send(sortedToys);
 });
+
 
 // Descending; 
 app.get("/descending", async (req, res) => {
-    const sortedToys = await brainYToyCollection.find().sort({ price: -1 }).toArray();
-    res.send(sortedToys)
+  const toyCollection = await brainYToyCollection.find().toArray();
+
+  const sortedToys = toyCollection.sort((a, b) => {
+    const priceA = parseFloat(a.price);
+    const priceB = parseFloat(b.price);
+    return priceB - priceA;
+  });
+
+  res.send(sortedToys);
 });
+
 
      app.put("/brainy/:id", async (req, res) => {
        const id = req.params.id;
