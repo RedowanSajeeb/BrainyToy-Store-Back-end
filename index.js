@@ -70,6 +70,15 @@ app.get("/languageToys", async (req, res) => {
 
   res.send(result);
 });
+
+app.get("/engineeringTools", async (req, res) => {
+  const query = { category: { $eq: "engineering tools" } };
+  const cursor = brainYToyCollection.find(query);
+
+  const result = await cursor.toArray(query)
+
+  res.send(result);
+});
    
   //  brainYToys Server Added
    app.post("/brainy", async (req, res) => {
