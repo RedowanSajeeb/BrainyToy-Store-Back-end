@@ -36,8 +36,8 @@ async function run() {
   app.get("/brainy/:id", async (req, res) => {
     const id = req.params.id;
     const query = { _id: new ObjectId(id) };
-    const cursor = brainYToyCollection.find(query);
-    const result = await cursor.toArray(query)
+    const result = await brainYToyCollection.findOne(query);
+    // const result = await cursor.toArray(query)
     res.send(result);
 
   });
