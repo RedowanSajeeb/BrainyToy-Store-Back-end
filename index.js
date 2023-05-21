@@ -52,6 +52,24 @@ app.get("/categorymath", async (req, res) => {
 
   res.send(result);
 });
+
+app.get("/scienceToys", async (req, res) => {
+  const query = { category: { $eq: "Science Toys" } };
+  const cursor = brainYToyCollection.find(query);
+
+  const result = await cursor.toArray(query)
+
+  res.send(result);
+});
+
+app.get("/languageToys", async (req, res) => {
+  const query = { category: { $eq: "Language Toys" } };
+  const cursor = brainYToyCollection.find(query);
+
+  const result = await cursor.toArray(query)
+
+  res.send(result);
+});
    
   //  brainYToys Server Added
    app.post("/brainy", async (req, res) => {
