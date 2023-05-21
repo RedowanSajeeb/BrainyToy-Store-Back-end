@@ -80,6 +80,17 @@ app.get("/engineeringTools", async (req, res) => {
   res.send(result);
 });
    
+  app.get('/brainyemail' , async (req, res) => {
+    // console.log(req.query.email);
+    let query = {}
+    if(req.query?.email){
+      query = { email: req.query.email}
+    }
+   const resust = await brainYToyCollection.find(query).toArray() 
+    
+   res.send(resust);
+  });
+
   //  brainYToys Server Added
    app.post("/brainy", async (req, res) => {
 
@@ -91,6 +102,33 @@ app.get("/engineeringTools", async (req, res) => {
  
    });
     
+     app.put("/brainy/:id", async (req, res) => {
+       const id = req.params.id;
+       const updateToydata = req.body;
+      //  console.log(updateToydata);
+        const filtirmongoid = {_id: new ObjectId(id)}
+          const updateDoc = {
+            $set: {
+              price: updateToydata.price,
+              quantity: updateToydata.quantity,
+              description: updateToydata.description,
+            },
+          };
+
+        const result = await brainYToyCollection.updateOne(filtirmongoid, updateDoc);
+        res.send(result);
+     });
+
+
+
+   app.delete("/brainy/:id", async (req, res) => {
+     const id = req.params.id;
+     const query = { _id: new ObjectId(id) };
+     const result = await brainYToyCollection.deleteOne(query);
+     res.send(result);
+   });
+
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
