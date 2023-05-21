@@ -28,7 +28,7 @@ async function run() {
   // brainYToys Get in Server
   app.get("/brainy", async (req, res) =>{
      const cursor = brainYToyCollection.find()
-     const result = await cursor.toArray();
+     const result = await cursor.limit(20).toArray();
      res.send(result);
       
   });
