@@ -113,8 +113,18 @@ app.get("/getSearchByToyName/:text", async (req, res) => {
   res.send(result);
 });
 
+// ascending
 
+app.get("/ascending", async (req, res) => {
+    const sortedToys = await brainYToyCollection.find().sort({ price: 1 }).toArray();
+    res.send(sortedToys)
+});
 
+// Descending; 
+app.get("/descending", async (req, res) => {
+    const sortedToys = await brainYToyCollection.find().sort({ price: -1 }).toArray();
+    res.send(sortedToys)
+});
 
      app.put("/brainy/:id", async (req, res) => {
        const id = req.params.id;
