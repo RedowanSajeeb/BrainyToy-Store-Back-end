@@ -114,7 +114,7 @@ async function run() {
       res.send(result);
     });
 
-    // ascending
+    // ascending-
 
  app.get("/brainyemailascending", async (req, res) => {
    // console.log(req.query.email);
